@@ -1,16 +1,17 @@
 resource "aws_instance" "web" {
-  ami           = "ami-09c813fb71547fc4f" # Replace with your AMI ID
-  instance_type = "t3.micro"
+  ami           =  var.ami_id # Replace with your AMI ID
+  instance_type = var.instance_type == "dev" ? "t3.micro" : "t3.small" # Use t3.micro for dev, t3.small for other environments
   vpc_security_group_ids = [aws_security_group.sg_with_terraform.id]
 
   tags = {
-    Name = "terraform-ec2-instance"
+     Name =  var.ec2_instance_name
   }
 }
 
 
 resource "aws_security_group" "sg_with_terraform" {
-  name        = "sg_with_terraform"
+  name        = var.aws_security_group_name
+  # The name of the security group to create
   description = "Allow TLS inbound traffic"
 
   ingress {
@@ -29,7 +30,7 @@ resource "aws_security_group" "sg_with_terraform" {
   }
 
   tags = {
-    Name = "sg_with_terraform"
+    Name = var.aws_security_group_name
   }
 }
 
