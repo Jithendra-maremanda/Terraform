@@ -9,4 +9,12 @@ terraform {
 
 provider "aws" {
   # Configuration options
+  alias = "prod"
+  profile = "prod"
+}
+
+provider "aws" {
+  # Configuration options
+  alias = "dev"
+  profile = "dev"
 }
